@@ -44,6 +44,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("MovieAdapter", "onBindViewHolder" + position);
@@ -76,8 +77,27 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(Movie movie, int pos) {
-            tvTitle.setText(movie.getTitle());
 
+
+            // assign color for each unique movie ; 1 = Light gray, 0 = White (default)
+            String title = movie.getTitle();
+            if (!itsColor.containsKey(title)) {
+                if (pos % 2 == 0) {
+                    itsColor.put(title, 1);
+                } else {
+                    itsColor.put(title, 0);
+                }
+            }
+
+
+            // set the color based on 1 or 0
+            if (itsColor.get(title) == 1) {
+                itemLayout.setBackgroundColor(Color.LTGRAY);
+                tvOverView.setTextColor(Color.WHITE);
+                tvTitle.setTextColor(Color.WHITE);
+            }
+
+            tvTitle.setText(movie.getTitle());
             // cut the long text
             if (movie.getOverview().length() > 270) {
                 tvOverView.setText(movie.getOverview().substring(0, 270) + "...");
@@ -85,20 +105,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 tvOverView.setText(movie.getOverview());
             }
 
-            // assign color for each unique movie ; 1 = Light gray, 0 = White (default)
-            String title = movie.getTitle();
-            if (!itsColor.containsKey(title)) {
-               if (pos % 2 == 0) {
-                   itsColor.put(title, 1);
-               } else {
-                   itsColor.put(title, 0);
-               }
-            }
 
-            // set the color based on 1 or 0
-            if (itsColor.get(title) == 1) {
-                itemLayout.setBackgroundColor(Color.LTGRAY);
-            }
 
             String imageUrl;
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
