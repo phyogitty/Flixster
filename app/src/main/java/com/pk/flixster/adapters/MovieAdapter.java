@@ -2,12 +2,12 @@ package com.pk.flixster.adapters;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,10 +20,7 @@ import com.bumptech.glide.Glide;
 import com.pk.flixster.R;
 import com.pk.flixster.models.Movie;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
@@ -33,6 +30,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;
         this.movies = movies;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 1;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("MovieAdapter", "onBindViewHolder" + position);
         Movie movie = movies.get(position);
-        holder.bind(movie, position);
+        holder.bind(movie);
     }
 
     @Override
@@ -63,8 +65,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         TextView tvOverView;
         ImageView ivPoster;
         RelativeLayout itemLayout;
+        Button btnShowmore;
 
-        Map<String, Integer> itsColor = new HashMap<>();
+
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -73,40 +76,39 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             tvOverView = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             itemLayout = itemView.findViewById(R.id.itemLayout);
+            btnShowmore = itemView.findViewById(R.id.btnShowmore);
         }
 
+
+
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void bind(Movie movie, int pos) {
-
-
-            // assign color for each unique movie ; 1 = Light gray, 0 = White (default)
-            String title = movie.getTitle();
-            if (!itsColor.containsKey(title)) {
-                if (pos % 2 == 0) {
-                    itsColor.put(title, 1);
-                } else {
-                    itsColor.put(title, 0);
-                }
-            }
-
-
-            // set the color based on 1 or 0
-            if (itsColor.get(title) == 1) {
-                itemLayout.setBackgroundColor(Color.LTGRAY);
-                tvOverView.setTextColor(Color.WHITE);
-                tvTitle.setTextColor(Color.WHITE);
-            }
-
+        public void bind(final Movie movie) {
             tvTitle.setText(movie.getTitle());
             // cut the long text
-            if (movie.getOverview().length() > 270) {
-                tvOverView.setText(movie.getOverview().substring(0, 270) + "...");
+            if (movie.getOverview().length() > 250) {
+                tvOverView.setText(movie.getOverview().substring(0, 250) + "...");
+                btnShowmore.setEnabled(true);
+                btnShowmore.setVisibility(View.VISIBLE);
             } else {
                 tvOverView.setText(movie.getOverview());
+                btnShowmore.setVisibility(View.GONE);
+
             }
 
+            btnShowmore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String overView = movie.getOverview();
+                    if (tvOverView.getText().length() == 253) {
+                        tvOverView.setText(overView);
+                        btnShowmore.setText("Show Less");
+                    } else {
+                        tvOverView.setText(overView.substring(0, 250) + "...");
+                        btnShowmore.setText("Show More");
+                    }
 
-
+                }
+            });
             String imageUrl;
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 imageUrl = movie.getBackdropPath();

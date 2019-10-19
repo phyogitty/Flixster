@@ -12,20 +12,24 @@ public class Movie {
     String backdropPath;
     String posterPath;
     String overview;
+    Double stars;
+    int bgColor;
 
 
 
-    public Movie(JSONObject jsonObject) throws JSONException {
+    public Movie(JSONObject jsonObject, int index) throws JSONException {
         title = jsonObject.getString("title");
         backdropPath= jsonObject.getString("backdrop_path");
         posterPath = jsonObject.getString("poster_path");
         overview = jsonObject.getString("overview");
+        stars = jsonObject.getDouble("vote_average");
+        bgColor = index % 2; // 1 for white, 0 for gray
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
         List<Movie> movies = new ArrayList<>();
         for (int i = 0; i < movieJsonArray.length(); i++) {
-            movies.add(new Movie(movieJsonArray.getJSONObject(i)));
+            movies.add(new Movie(movieJsonArray.getJSONObject(i), i));
         }
 
         return movies;
@@ -47,4 +51,8 @@ public class Movie {
     public String getOverview() {
         return overview;
     }
+
+    public int getBgColor() { return bgColor; }
+
+    public double getStars() { return stars; }
 }
