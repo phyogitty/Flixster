@@ -1,6 +1,7 @@
 package com.pk.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.util.Log;
@@ -17,8 +18,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.pk.flixster.MovieDetailActivity;
 import com.pk.flixster.R;
 import com.pk.flixster.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -67,9 +71,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         RelativeLayout itemLayout;
         Button btnShowmore;
 
-
-
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
@@ -77,9 +78,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             ivPoster = itemView.findViewById(R.id.ivPoster);
             itemLayout = itemView.findViewById(R.id.itemLayout);
             btnShowmore = itemView.findViewById(R.id.btnShowmore);
+//            itemView.setOnClickListener(this);
         }
 
 
+
+//        @Override
+//        public void onClick(View view) {
+//            // get the position and ensure it's valid
+//            int position = getAdapterPosition();
+//            // get the movie at that position in the list
+//            Movie movie = movies.get(position);
+//            // create an intent to display movie detail
+//            Intent intent = new Intent(context, MovieDetailActivity.class);
+//            // pass the movie as an extra serialized via Parcels.wrap()
+//            intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+//            // show the activity
+//            context.startActivity(intent);
+//        }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind(final Movie movie) {
@@ -98,12 +114,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             btnShowmore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String overView = movie.getOverview();
+                    String overVieww = movie.getOverview();
                     if (tvOverView.getText().length() == 253) {
-                        tvOverView.setText(overView);
+                        tvOverView.setText(overVieww);
                         btnShowmore.setText("Show Less");
                     } else {
-                        tvOverView.setText(overView.substring(0, 250) + "...");
+                        tvOverView.setText(overVieww.substring(0, 250) + "...");
                         btnShowmore.setText("Show More");
                     }
 
@@ -116,6 +132,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 imageUrl = movie.getPosterPath();
             }
             Glide.with(context).load(imageUrl).placeholder(R.drawable.placeholder).into(ivPoster);
+            tvTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // get the position and ensure it's valid
+//                    int position = getAdapterPosition();
+//                    // get the movie at that position in the list
+//                    Movie movie = movies.get(position);
+                    // create an intent to display movie detail
+                    Intent intent = new Intent(context, MovieDetailActivity.class);
+                    // pass the movie as an extra serialized via Parcels.wrap()
+                    intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+                    // show the activity
+                    context.startActivity(intent);
+                }
+            });
         }
 
     }
