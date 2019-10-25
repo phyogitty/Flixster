@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvTitleM"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -27,8 +27,9 @@
         android:layout_toEndOf="@+id/ivPoster"
         android:text="Movie Title"
 
-        android:textColor="@color/textview_selector"
+        android:textColor="#d3d308"
         android:textSize="24sp"
+        android:textStyle="bold"
         tools:text="Movie Title" />
 
     <TextView
@@ -39,6 +40,7 @@
 
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="5dp"
         android:layout_toEndOf="@+id/ivPoster"
         android:maxHeight="200dp"
         android:text="Overview" />

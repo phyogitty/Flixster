@@ -6,12 +6,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
+//import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
 public class Movie {
+    int movieId;
     String title;
     String backdropPath;
     String posterPath;
@@ -27,6 +29,7 @@ public class Movie {
         posterPath = jsonObject.getString("poster_path");
         overview = jsonObject.getString("overview");
         voteAvg = jsonObject.getDouble("vote_average");
+        movieId = jsonObject.getInt("id");
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -57,4 +60,6 @@ public class Movie {
 
 
     public double getVoteAvg() { return voteAvg; }
+
+    public int getMovieId() { return movieId; }
 }

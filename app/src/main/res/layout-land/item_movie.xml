@@ -17,7 +17,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvTitleM"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -43,7 +43,7 @@
         android:id="@+id/btnShowmore"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_below="@+id/tvOverview1"
+        android:layout_below="@+id/tvOverview"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_toEndOf="@+id/ivPoster"
