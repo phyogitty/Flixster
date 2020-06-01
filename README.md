@@ -56,8 +56,7 @@ Describe any challenges encountered while building the app.
 
 ### App Walkthough GIF
 
-<img src="walkthrough.gif" width=250><br><br>
-## Land-scape mode
+<img src="walkthrough.gif" width=250>
 
 <img src="walkthrough-land.gif" width=550><br>
 
